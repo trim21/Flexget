@@ -3,22 +3,17 @@ ENV PYTHONUNBUFFERED 1
 
 RUN apk add --no-cache --upgrade \
         ca-certificates \
-        nodejs \
         build-base \
         libffi-dev \
         openssl-dev \
-        unzip && \
-    rm -rf /var/cache/apk/*
+        unzip
 
 WORKDIR /wheels
 
-COPY . /flexget
+COPY ./requirements-docker.txt /flexget/
 
 RUN pip install -U pip && \
-    pip install -r /flexget/dev-requirements.txt
-RUN python /flexget/dev_tools.py bundle-webui
-RUN pip wheel -r /flexget/requirements-docker.txt && \
-    pip wheel -e /flexget
+    pip wheel -r /flexget/requirements-docker.txt
 
 FROM docker.io/python:3.11-alpine
 ENV PYTHONUNBUFFERED 1
@@ -36,7 +31,6 @@ RUN pip install -U pip && \
     pip install --no-cache-dir \
                 --no-index \
                 -f /wheels \
-                FlexGet \
                 -r /requirements-docker.txt && \
     rm -rf /wheels /requirements-docker.txt
 
