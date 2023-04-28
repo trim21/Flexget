@@ -107,6 +107,7 @@ jobs:
           context: ./
           file: ./etc/base.dockerfile
           push: true
+          platforms: linux/amd64
           tags: ${{ env.IMAGE }}:${{ env.TAG_HASH }}
           cache-from: type=gha, scope=${{ github.workflow }}
           cache-to: type=gha, scope=${{ github.workflow }}
@@ -133,6 +134,7 @@ jobs:
           builder: ${{ steps.buildx.output.name }}
           build-args: BASE_DOCKER_IMAGE=${{ env.IMAGE }}:${{ env.TAG_HASH }}
           push: true
+          platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha, scope=${{ github.workflow }}
