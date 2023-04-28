@@ -61,7 +61,7 @@ jobs:
       packages: write # to push to ghcr.io
 
     env:
-      IMAGE: "ghcr.io/${{ github.repository_owner }}/flexget"
+      IMAGE: "ghcr.io/${{ github.repository_owner }}/flexget2"
 
     steps:
       - uses: actions/checkout@v3
@@ -108,7 +108,6 @@ jobs:
           file: ./etc/base.dockerfile
           push: true
           tags: ${{ env.IMAGE }}:${{ env.TAG_HASH }}
-          platforms: linux/amd64
           cache-from: type=gha, scope=${{ github.workflow }}
           cache-to: type=gha, scope=${{ github.workflow }}
 
@@ -134,7 +133,6 @@ jobs:
           builder: ${{ steps.buildx.output.name }}
           build-args: BASE_DOCKER_IMAGE=${{ env.IMAGE }}:${{ env.TAG_HASH }}
           push: true
-          platforms: linux/amd64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha, scope=${{ github.workflow }}
